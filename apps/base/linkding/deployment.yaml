@@ -4,10 +4,6 @@ metadata:
   name: linkding
   namespace: linkding
 spec:
-  securitsContext:
-    fsGroup: 33
-    runAsUser: 33
-    runAsGroup: 33
   replicas: 1 
   selector:
     matchLabels:
@@ -16,17 +12,21 @@ spec:
     metadata:
       labels:
         app: linkding
-    spec:
+    spec:    
+      securitsContext:
+        fsGroup: 33
+        runAsUser: 33
+        runAsGroup: 33
       containers:
         - name: linkding
-          image: sissbruecker/linkding:1.31.0
-          ports:
-            - containerPort: 9090
-          volumeMounts:
-            - name: linkding-data
-              mountPath: /etc/linkding/data
-          securityContext:
-            allowPrivilegeEscalation: false
+        image: sissbruecker/linkding:1.31.0
+        ports:
+          - containerPort: 9090
+        volumeMounts:
+          - name: linkding-data
+            mountPath: /etc/linkding/data
+        securityContext:
+          allowPrivilegeEscalation: false
       volumes:
         - name: linkding-data
           persistentVolumeClaim:
