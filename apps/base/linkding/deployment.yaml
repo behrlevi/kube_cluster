@@ -5,7 +5,7 @@ metadata:
   namespace: linkding
 spec
   securitsContext:
-    runAsNonRoot: true:
+    runAsNonRoot: true
   replicas: 1 
   selector:
     matchLabels:
