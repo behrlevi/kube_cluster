@@ -3,7 +3,9 @@ kind: Deployment
 metadata:
   name: linkding
   namespace: linkding
-spec:
+spec
+  securitsContext:
+    runAsNonRoot: true:
   replicas: 1 
   selector:
     matchLabels:
