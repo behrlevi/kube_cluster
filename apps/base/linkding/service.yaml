@@ -7,9 +7,9 @@ metadata:
     namespace: linkding
 spec:
   ports:
-    - port: 9090
-      protocol: TCP
-      targetPort: 8080
-    selector:
-      app: linkding
-    type: LoadBalancer
+  - port: 9090
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: linkding
+  type: LoadBalancer
