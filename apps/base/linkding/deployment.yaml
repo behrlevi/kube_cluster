@@ -5,7 +5,9 @@ metadata:
   namespace: linkding
 spec:
   securitsContext:
-    runAsNonRoot: true
+    fsGroup: 33
+    runAsUser: 33
+    runAsGroup: 33
   replicas: 1 
   selector:
     matchLabels:
@@ -23,6 +25,8 @@ spec:
           volumeMounts:
             - name: linkding-data
               mountPath: /etc/linkding/data
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: linkding-data
           persistentVolumeClaim:
