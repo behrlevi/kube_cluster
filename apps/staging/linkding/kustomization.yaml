@@ -5,3 +5,4 @@ resources:
   - cloudflare.yaml
 #  - test-secret.yamli
   - tunnel-credentials.yaml
+  - linkding-container-env-secret.yaml
