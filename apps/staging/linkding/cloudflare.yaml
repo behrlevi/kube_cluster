@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloudflaredi
+  name: cloudflared
   namespace: flux-system
 spec:
   selector:
