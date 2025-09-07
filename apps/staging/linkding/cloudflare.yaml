@@ -1,7 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloudflared
+  name: cloudflaredi
+  namespace: flux-system
 spec:
   selector:
     matchLabels:
@@ -64,7 +65,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: cloudflared
-  namespace: linkding
+  namespace: flux-system
 data:
   config.yaml: |
     # Name of the tunnel you want to run
