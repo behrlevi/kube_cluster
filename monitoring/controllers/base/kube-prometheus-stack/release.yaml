@@ -30,4 +30,11 @@ spec:
           kind: PrometheusRule
   values:
     grafana:
-      adminPassword: mischa
+      adminPassword: password
+    ingress:
+      enabled: truei
+      ingressClassName: nginx
+      hosts:
+        - grafana.behrlevi.org
+      paths: /
+
