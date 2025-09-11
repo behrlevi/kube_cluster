@@ -32,7 +32,7 @@ spec:
     grafana:
       adminPassword: password
     ingress:
-      enabled: truei
+      enabled: true
       ingressClassName: nginx
       hosts:
         - grafana.behrlevi.org
