@@ -31,10 +31,10 @@ spec:
   values:
     grafana:
       adminPassword: password
-    ingress:
-      enabled: true
-      ingressClassName: traefik
-      hosts:
-        - grafana.behrlevi.org
-      paths: /
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        hosts:
+          - grafana.behrlevi.org
+        paths: /
 
