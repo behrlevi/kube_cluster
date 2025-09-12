@@ -14,7 +14,7 @@ spec:
             - name: renovate
               image: renovate/renovate:latest
               args:
-                - mischavandenburg/pi-cluster
+                - behrlevi/kube_cluster
 
               envFrom:
                 - secretRef:
