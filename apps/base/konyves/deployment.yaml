@@ -13,11 +13,7 @@ spec:
       labels:
         app: konyves
     spec:    
-      securityContext:
-        fsGroup: 33
-        runAsUser: 33
-        runAsGroup: 33
-      containers:
+     containers:
         - name: konyves
           image: ghcr.io/advplyr/audiobookshelf:latest
           ports:
