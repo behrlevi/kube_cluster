@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
   - deployment.yaml
   - namespace.yaml
-#  - volumeclaim.yaml
-#  - service.yaml
+  - volumeclaim.yaml
+  - service.yaml
+  - volume.yaml
