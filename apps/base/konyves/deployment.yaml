@@ -27,6 +27,6 @@ spec:
               mountPath: /config
 
     volumes:
-      - name: konyves-data
+      - name: config
         persistentVolumeClaim:
           claimName: konyves-data-pvc
