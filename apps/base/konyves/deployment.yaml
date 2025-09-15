@@ -12,7 +12,11 @@ spec:
       labels:
         app: konyves
     spec:
-     containers:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsGroup: 1000
+      containers:
         - name: konyves
           image: ghcr.io/advplyr/audiobookshelf:latest
           ports:
@@ -26,7 +30,7 @@ spec:
               mountPath: /audiobooks
             - name: podcasts
               mountPath: /podcasts
-     volumes:
+      volumes:
       - name: config
         persistentVolumeClaim:
           claimName: konyves-config
