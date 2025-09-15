@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: konyves
 resources:
   - ../../base/konyves/
-  - ingress.yaml:
+  - ingress.yaml
