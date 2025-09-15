@@ -16,12 +16,8 @@ spec:
      containers:
         - name: konyves
           image: ghcr.io/advplyr/audiobookshelf:latest
-          env:
-            - name: PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: konyves-conf
-                  key: port
+          ports:
+            - containerPort: 80
           volumeMounts:
             - name: config
               mountPath: /config
