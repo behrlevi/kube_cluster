@@ -5,7 +5,7 @@ metadata:
   namespace: konyves
 spec:
   ports:
-    - port: 9090
+    - port: 80
       targetPort: 3005
   selector:
     app: konyves

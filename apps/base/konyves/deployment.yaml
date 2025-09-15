@@ -26,4 +26,3 @@ spec:
       - name: konyves-data
         persistentVolumeClaim:
           claimName: konyves-data-pvc
-
