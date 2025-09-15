@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: konyves-conf 
 data:
-  port: "3005"
+  port: "80"
 
