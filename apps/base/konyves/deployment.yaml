@@ -20,7 +20,22 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+            - name: metadata
+              mountPath: /metadata
+            - name: audiobooks
+              mountPath: /audiobooks
+            - name: podcasts
+              mountPath: /podcasts
      volumes:
       - name: config
         persistentVolumeClaim:
-          claimName: konyves-data-pvc
+          claimName: konyves-config
+      - name: metadata
+        persistentVolumeClaim:
+          claimName: konyves-metadata
+      - name: audiobooks
+        persistentVolumeClaim:
+          claimName: konyves-audiobooks
+      - name: podcasts
+        persistentVolumeClaim:
+          claimName: konyves-podcasts
