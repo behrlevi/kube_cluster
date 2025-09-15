@@ -22,6 +22,10 @@ spec:
                 configMapKeyRef:
                   name: konyves-conf
                   key: port
+          volumeMounts:
+            - name: config
+              mountPath: /config
+
     volumes:
       - name: konyves-data
         persistentVolumeClaim:
