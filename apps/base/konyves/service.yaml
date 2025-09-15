@@ -5,8 +5,8 @@ metadata:
   namespace: konyves
 spec:
   ports:
-    - port: 80
-      targetPort: 3005
+    - port: 3005
+      targetPort: 80
   selector:
     app: konyves
   type: ClusterIP
