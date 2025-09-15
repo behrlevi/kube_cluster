@@ -18,4 +18,8 @@ spec:
           image: ghcr.io/advplyr/audiobookshelf:latest
           ports:
             - containerPort: 3005
+    volumes:
+      - name: konyves-data
+        persistentVolumeClaim:
+          claimName: konyves-data-pvc
 

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: konyves_pvc
+  name: konyves-data-pvc
   namespace: konyves
 spec:
   accessModes:
