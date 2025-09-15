@@ -12,7 +12,7 @@ spec:
     metadata:
       labels:
         app: konyves
-    spec:    
+    spec:
      containers:
         - name: konyves
           image: ghcr.io/advplyr/audiobookshelf:latest
@@ -21,8 +21,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-
-    volumes:
+     volumes:
       - name: config
         persistentVolumeClaim:
           claimName: konyves-data-pvc
