@@ -4,3 +4,4 @@ namespace: konyves
 resources:
   - ../../base/konyves/
   - ingress.yaml
+  - cloudflare.yaml
