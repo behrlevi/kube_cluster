@@ -5,3 +5,4 @@ resources:
   - ../../base/konyves/
   - ingress.yaml
   - cloudflare.yaml
+  - cloudflare-secret.yaml
