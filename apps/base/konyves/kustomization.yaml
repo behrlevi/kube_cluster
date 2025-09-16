@@ -6,4 +6,4 @@ resources:
   - namespace.yaml
   - volumeclaim.yaml
   - service.yaml
-#  - configmap.yaml
+  - configmap.yaml

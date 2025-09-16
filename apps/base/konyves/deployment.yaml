@@ -19,8 +19,12 @@ spec:
       containers:
         - name: konyves
           image: ghcr.io/advplyr/audiobookshelf:latest
+          envFrom:
+            - configMapRef:
+                name: konyves-conf 
           ports:
             - containerPort: 80
+              protocol: TCP
           volumeMounts:
             - name: config
               mountPath: /config
