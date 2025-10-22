@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: thehive-service
+  namespace: thehive
+spec:
+  ports:
+    - port: 9000
+  selector:
+    app: thehive
+  type: ClusterIP
