@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thehive
+  namespace: thehive
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: thehive
+  template:
+    metadata:
+      labels:
+        app: thehive
+        com.strangebee.stack: "thehive-stack"
+        com.strangebee.service: "thehive"
+        com.strangebee.role: "application"
+        com.strangebee.environment: "production-thehive"
+    spec:
+      containers:
+        - name: thehive
+          image: "strangebee/thehive:latest"
+          command: ["--no-config", "--no-config-secret"]
+          env:
+            - name: JAVA_OPTS
+              value: "-Xms3000M -Xmx3000M -XX:MaxMetaspaceSize=400m -XX:ReservedCodeCacheSize=400m"
+          ports:
+            - containerPort: 9000

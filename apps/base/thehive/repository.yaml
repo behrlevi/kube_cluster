@@ -1,0 +1,8 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: strangebee
+  namespace: thehive
+spec:
+  interval: 24h
+  url: https://strangebeecorp.github.io/helm-charts
