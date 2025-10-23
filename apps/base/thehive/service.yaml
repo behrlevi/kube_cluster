@@ -5,7 +5,7 @@ metadata:
   namespace: thehive
 spec:
   ports:
-    - port: 9090
+    - port: 9091
   selector:
     app: thehive
   type: ClusterIP

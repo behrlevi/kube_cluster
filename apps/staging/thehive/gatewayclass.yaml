@@ -3,5 +3,5 @@ kind: GatewayClass
 metadata:
   name: thehive-class
 spec:
-  controllerName: traefik.io/gateway-controller
+  controllerName: gateway.envoyproxy.io/gateway-controller
 
