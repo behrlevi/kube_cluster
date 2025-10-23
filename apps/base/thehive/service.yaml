@@ -4,10 +4,10 @@ metadata:
   name: thehive-service
   namespace: thehive
 spec:
-  ports:
-    - port: 8091
-      targetPort: 8000
-      nodePort: 30000
+  type: LoadBalancer
   selector:
     app: thehive
-  type: NodePort
+  ports:
+    - name: http-web
+      port: 8001
+      targetPort: 8000
