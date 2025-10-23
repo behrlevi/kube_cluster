@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: thehive
 resources:
   - ../../base/thehive/
-  - gateway.yaml
-  - httproute.yaml
-  - gatewayclass.yaml
+#  - gateway.yaml
+#  - httproute.yaml
+#  - gatewayclass.yaml
 #  - ingress.yaml
