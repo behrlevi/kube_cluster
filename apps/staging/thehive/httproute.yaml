@@ -2,16 +2,15 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: thehive-httproute
+  namespace: thehive
 spec:
   parentRefs:
   - name: thehive-gateway
-  hostnames:
-  - "thehive.ddc.sze.hu"
   rules:
-  - matches:
-    - path:
+    - matches:
+      - path:
         type: PathPrefix
-        value: /
-    backendRefs:
-    - name: thehive-service
-      port: 9000
+          value: /
+      backendRefs:
+        - name: thehive-service
+          port: 8001

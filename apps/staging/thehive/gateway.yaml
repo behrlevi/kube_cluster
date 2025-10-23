@@ -2,9 +2,10 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: thehive-gateway
+  namespace: thehive
 spec:
-  gatewayClassName: thehive-class 
+  gatewayClassName: envoy-gateway-class 
   listeners:
-  - name: http
+    - name: http
     protocol: HTTP
     port: 80

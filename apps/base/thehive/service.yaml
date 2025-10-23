@@ -6,8 +6,8 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: thehive
+    app.kubernetes.io/component: server
   ports:
     - name: http-web
       port: 8001
-      targetPort: 8000
+      targetPort: 9000
