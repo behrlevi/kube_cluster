@@ -25,4 +25,4 @@ spec:
             - name: JAVA_OPTS
               value: "-Xms3000M -Xmx3000M -XX:MaxMetaspaceSize=400m -XX:ReservedCodeCacheSize=400m"
           ports:
-            - containerPort: 9000
+            - containerPort: 8000
