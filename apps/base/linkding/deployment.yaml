@@ -4,7 +4,9 @@ metadata:
   name: linkding
   namespace: linkding
 spec:
-  replicas: 1 
+  replicas: 1
+  strategy:
+    type: Recreate 
   selector:
     matchLabels:
       app: linkding
@@ -19,7 +21,7 @@ spec:
         runAsGroup: 33
       containers:
         - name: linkding
-          image: sissbruecker/linkding:1.0.0
+          image: sissbruecker/linkding:1.1.0
           ports:
             - containerPort: 9090
           volumeMounts:
