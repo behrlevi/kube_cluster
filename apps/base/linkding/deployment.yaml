@@ -19,7 +19,7 @@ spec:
         runAsGroup: 33
       containers:
         - name: linkding
-          image: sissbruecker/linkding:1.44.1
+          image: sissbruecker/linkding:1.1.0
           ports:
             - containerPort: 9090
           volumeMounts:
