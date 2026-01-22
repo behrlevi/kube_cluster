@@ -52,7 +52,7 @@ The repository is structured in conformity with the [monorepo](https://fluxcd.io
 │   └── staging/                   # Application-specific settings
 ├── clusters/                      
 │   └── staging/                
-│       └──  flux-system/           # Flux system components
+│       └──  flux-system/          # Flux system components
 |   ├── .sops.yaml                 
 |   ├── apps.yaml        
 |   ├── infrastructure.yaml        # Sync definition for infrastructure
