@@ -53,7 +53,7 @@ The repository is structured in conformity with the [monorepo](https://fluxcd.io
 ├── clusters/                      
 │   └── staging/                
 │       └──  flux-system/          # Flux system components
-|   ├── .sops.yaml                 
+|   ├── .sops.yaml                 # Contains the public key for de
 |   ├── apps.yaml        
 |   ├── infrastructure.yaml        # Sync definition for infrastructure
 │   └── monitoring.yaml            
@@ -64,4 +64,31 @@ The repository is structured in conformity with the [monorepo](https://fluxcd.io
 |               └── renovate
 |           └── staging
 |               └── renovate
+```
+## Secrets management with [SOPS](https://fluxcd.io/flux/guides/mozilla-sops/)
+
+#### Encrypting secrets using age
+```
+brew install sops age
+
+# Creates the public and private keys
+# The private key should be stored separately in case
+# the cluster has to be rebuilt in the future.
+age-keygen -o age.agekey
+
+# Export the pubkey into a variable
+export AGE_PUBLIC=<public_key>
+
+# Encrypt the yaml definition of the secret with the pubkey
+sops --age=$AGE_PUBLIC \
+--encrypt --encrypted-regex '^(data|stringData)$' --in-place secret.yaml
+
+# Add the private key to the cluster.
+# With this the encrypted secrets are decrypted inside the cluster
+cat age.agekey |
+kubectl create secret generic sops-age \
+--namespace=flux-system \
+--from-file=age.agekey=/dev/stdin
+
+
 ```
