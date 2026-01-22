@@ -53,7 +53,7 @@ The repository is structured in conformity with the [monorepo](https://fluxcd.io
 ├── clusters/                      
 │   └── staging/                
 │       └──  flux-system/          # Flux system components
-|   ├── .sops.yaml                 # Contains the public key for de
+|   ├── .sops.yaml                 # Contains the public key for encryption
 |   ├── apps.yaml        
 |   ├── infrastructure.yaml        # Sync definition for infrastructure
 │   └── monitoring.yaml            
@@ -76,15 +76,15 @@ brew install sops age
 # the cluster has to be rebuilt in the future.
 age-keygen -o age.agekey
 
-# Export the pubkey into a variable
+# Export the **pubkey** into a variable
 export AGE_PUBLIC=<public_key>
 
-# Encrypt the yaml definition of the secret with the pubkey
+# **Encrypt** the yaml definition of the secret with the **pubkey**
 sops --age=$AGE_PUBLIC \
 --encrypt --encrypted-regex '^(data|stringData)$' --in-place secret.yaml
 
-# Add the private key to the cluster.
-# With this the encrypted secrets are decrypted inside the cluster
+# Add the **private key** to the cluster.
+# With this the encrypted secrets are **decrypted** inside the cluster
 cat age.agekey |
 kubectl create secret generic sops-age \
 --namespace=flux-system \
