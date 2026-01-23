@@ -47,17 +47,19 @@ graph LR
 
 The repository is structured in conformity with the [monorepo](https://fluxcd.io/flux/guides/repository-structure/) methodology.
 ```
-├── apps/                          # Application manifestst
-│   ├── base/                      # Base Kustomize manifests (DRY principle)
-│   └── staging/                   # Application-specific settings
+├── apps/                               # Application manifestst
+│   ├── base/                           # Base Kustomize manifests (DRY principle)
+│   └── staging/                        # Application-specific settings
 ├── clusters/                      
 │   └── staging/                
-│       └──  flux-system/          # Flux system components
-|   ├── .sops.yaml                 # Contains the public key for encryption
+│       └──  flux-system/               # Flux system components
+            ├── gotk-components.yaml    #
+            └── gotk-sync.yaml
+|   ├── .sops.yaml                      # Contains the public key for encryption
 |   ├── apps.yaml        
-|   ├── infrastructure.yaml        # Sync definition for infrastructure
+|   ├── infrastructure.yaml             # Sync definition for infrastructure
 │   └── monitoring.yaml            
-├── infrastructure/                # Core system components
+├── infrastructure/                     # Core system components
 │   └──  controllers/              
 │       └── monitoring/
 |           └── base
@@ -89,6 +91,36 @@ cat age.agekey |
 kubectl create secret generic sops-age \
 --namespace=flux-system \
 --from-file=age.agekey=/dev/stdin
+```
 
+## Flux
+#### Installing Flux
+Flux needs to be installed on the cluster to facilitate the GitOps reconciliation loop
+
+Bootstrapping Flux on the Cluster
 
 ```
+export GITHUB_TOKEN=<your-token>
+export GITHUB_USER=<your-username>
+
+# Install Flux CLI
+curl -s https://fluxcd.io/install.sh | sudo bash
+
+# Check if the cluster meets the requirements
+# Kubernetes 1.28.0.0 or newer is required
+flux check --pre
+
+flux bootstrap github \
+
+  --owner=$GITHUB_USER \
+
+  --repository=<repo_name> \
+
+  --branch=main \
+
+  --path=./clusters/staging \
+
+  --personal
+```
+This installs Flux controllers in a separate namepsace and commits manifests to the specified repository.
+Flux creates necessary manifests in the GitHub repository.
