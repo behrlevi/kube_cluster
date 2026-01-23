@@ -53,10 +53,11 @@ The repository is structured in conformity with the [monorepo](https://fluxcd.io
 ├── clusters/                      
 │   └── staging/                
 │       └──  flux-system/               # Flux system components
-            ├── gotk-components.yaml    #
-            └── gotk-sync.yaml
+            ├── gotk-components.yaml    # GitOps toolkit
+            ├── gotk-sync.yaml          # GitOps toolkit - kind: GitRepository & kind: Kustomization (the Kustomization file below)
+            └── kustomization.yaml      # The base template for Flux configured by default.
 |   ├── .sops.yaml                      # Contains the public key for encryption
-|   ├── apps.yaml        
+|   ├── apps.yaml                       # A Kustomization custom resource
 |   ├── infrastructure.yaml             # Sync definition for infrastructure
 │   └── monitoring.yaml            
 ├── infrastructure/                     # Core system components
@@ -78,15 +79,15 @@ brew install sops age
 # the cluster has to be rebuilt in the future.
 age-keygen -o age.agekey
 
-# Export the **pubkey** into a variable
+# Export the pubkey into a variable
 export AGE_PUBLIC=<public_key>
 
-# **Encrypt** the yaml definition of the secret with the **pubkey**
+# Encrypt the yaml definition of the secret with the pubkey
 sops --age=$AGE_PUBLIC \
 --encrypt --encrypted-regex '^(data|stringData)$' --in-place secret.yaml
 
 # Add the **private key** to the cluster.
-# With this the encrypted secrets are **decrypted** inside the cluster
+# With this the encrypted secrets are decrypted inside the cluster
 cat age.agekey |
 kubectl create secret generic sops-age \
 --namespace=flux-system \
@@ -122,5 +123,21 @@ flux bootstrap github \
 
   --personal
 ```
+
 This installs Flux controllers in a separate namepsace and commits manifests to the specified repository.
 Flux creates necessary manifests in the GitHub repository.
+
+#### What is a Kustomization?
+A **Kustomization** custom resource represents a local set of Kubernetes resources (e.g. kustomize overlay) the Flux is supposed to reconcile in the cluster.
+The reconciliation runs every five minutes by default which can be changed by **.spec.interval**.
+
+#### How does Flux deploy the application?
+  1. Flux reads the clusters/staging directory
+
+  2. Finds and applies our apps.yaml file
+
+  3. Looks at the apps/staging directory
+
+  4. Finds the applications kustomization file
+
+  5. Applies the resources we defined in the base configuration
