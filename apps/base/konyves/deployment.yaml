@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: konyves
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: konyves
+  template:
+    metadata:
+      labels:
+        app: konyves
+    spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsGroup: 1000
+      containers:
+        - name: konyves
+          image: ghcr.io/advplyr/audiobookshelf:latest
+          envFrom:
+            - configMapRef:
+                name: konyves-conf 
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: metadata
+              mountPath: /metadata
+            - name: audiobooks
+              mountPath: /audiobooks
+            - name: podcasts
+              mountPath: /podcasts
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: konyves-config
+      - name: metadata
+        persistentVolumeClaim:
+          claimName: konyves-metadata
+      - name: audiobooks
+        persistentVolumeClaim:
+          claimName: konyves-audiobooks
+      - name: podcasts
+        persistentVolumeClaim:
+          claimName: konyves-podcasts

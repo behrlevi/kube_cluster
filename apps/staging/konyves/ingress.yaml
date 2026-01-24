@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: konyves 
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: konyves.behrlevi.org
+      http:
+        paths:
+          - backend:
+              service:
+                name: konyves
+                port:
+                  number: 3005
+            path: /
+            pathType: Prefix
