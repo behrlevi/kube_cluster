@@ -165,17 +165,19 @@ This creates a .json file containing the *account tag*, *tunnel secret* and the 
 
 #### Create a secret resource in Kubernetes to store the tunnel secret
 
+The contents of the secret are loaded from the .json created above. 
+
 ```
 kubectl create secret generic tunnel-credentials \
 
---from-file=credentials.json=<ID>.json --namespace=linkding
+--from-file=credentials.json=<ID>.json --namespace=<app_namespace>
 ```
 
-##### Create a CNAME DNS rekord
+#### Create a CNAME DNS rekord
 ```
 <tunnel_ID>.cfargotunnel.com
 ```
-##### Define a Service
+#### Define a Service
 
 ```
 apiVersion: v1
@@ -189,3 +191,16 @@ spec:
     app: <app>
   type: ClusterIP
   ```
+#### Create the cloudflared pod
+
+I have defined the pod's configuration in the apps/staging/application.
+The contents of the secret containing the tunnel credentials are mounted as a file inside the pod.
+I have included a configmap in the cloudflared config manifest.
+
+The logic in the file is as follows:
+- 'creds' mounts the 'tunnel-credentials' secret as a file into the pod
+- 'config' mounts config.yaml which is created from a ConfigMap resource
+- The ConfigMap called cloudflared defines the following parameters:
+  - the name of tunnel which has to indentical with the name given in the 'cloudflared tunnel create' command
+  - defines the path of the credentials file which was mounted by the 'creds' volume mount and stems from the secret
+  - the Ingress hostname and the DNS name of the service to which the tunnel should be bound to

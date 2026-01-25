@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: cloudflared
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -39,14 +39,14 @@ spec:
           readOnly: true
         # Each tunnel has an associated "credentials file" which authorizes machines
         # to run the tunnel. cloudflared will read this file from its local filesystem,
-        # and it'll be stored in a k8s secret.
+        # and it'll be stored in a Kubernetes secret.
         - name: creds
           mountPath: /etc/cloudflared/creds
           readOnly: true
       volumes:
       - name: creds
         secret:
-          secretName: csatornakulcs
+          secretName: tunnel-credentials
 
       # Create a config.yaml file from the ConfigMap below.
       - name: config
