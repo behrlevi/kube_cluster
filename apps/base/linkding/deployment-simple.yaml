@@ -20,6 +20,9 @@ spec:
       containers:
         - name: linkding
           image: sissbruecker/linkding:1.1.0
+          command: ["/bin/sh", "-c"]
+          args: 
+            - linkding python manage.py createsuperuser --username=admin --email=admin@behrlevi.org
           ports:
             - containerPort: 9090
           volumeMounts:
