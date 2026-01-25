@@ -19,7 +19,7 @@ spec:
         runAsGroup: 33
       containers:
         - name: linkding
-          image: sissbruecker/linkding:1.1.0
+          image: sissbruecker/linkding:latest
           command: ["/bin/sh", "-c"]
           args: 
             - linkding python manage.py createsuperuser --username=admin --email=admin@behrlevi.org
