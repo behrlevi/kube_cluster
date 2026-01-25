@@ -168,7 +168,7 @@ This creates a .json file containing the *account tag*, *tunnel secret* and the 
 ```
 kubectl create secret generic tunnel-credentials \
 
---from-file=credentials.json=<ID>.json
+--from-file=credentials.json=<ID>.json --namespace=linkding
 ```
 
 ##### Create a CNAME DNS rekord
