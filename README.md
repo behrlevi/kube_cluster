@@ -151,4 +151,41 @@ curl -fsSL https://pkg.cloudflare.com/cloudflare-public-v2.gpg | sudo tee /usr/s
 echo "deb [signed-by=/usr/share/keyrings/cloudflare-public-v2.gpg] https://pkg.cloudflare.com/cloudflared any main" | sudo tee /etc/apt/sources.list.d/cloudflared.list
 sudo apt-get update && sudo apt-get install cloudflared
 ```
-###
+#### Sign in to Cloudflare and authorize the tunnel for a domain
+```
+cloudflared tunnel login
+```
+After successful authorization, ~/.cloudflared/cert.pem will be created.
+
+#### Crete a tunnel
+```
+cloudflared tunnel create <tunnel_name>
+```
+This creates a .json file containing the *account tag*, *tunnel secret* and the *tunnel ID* in the ~/.cloudflared/ directory.
+
+#### Create a secret resource in Kubernetes to store the tunnel secret
+
+```
+kubectl create secret generic tunnel-credentials \
+
+--from-file=credentials.json=<ID>.json
+```
+
+##### Create a CNAME DNS rekord
+```
+<tunnel_ID>.cfargotunnel.com
+```
+##### Define a Service
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: <app>
+spec:
+  ports:
+    - port: 9090
+  selector:
+    app: <app>
+  type: ClusterIP
+  ```

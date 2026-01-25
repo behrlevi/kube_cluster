@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: cloudflared
-  replicas: 2 # You could also consider elastic scaling for this deployment
+  replicas: 2
   template:
     metadata:
       labels:
@@ -68,7 +68,7 @@ data:
   config.yaml: |
     # Name of the tunnel you want to run
     
-    tunnel: linkding
+    tunnel: csatorna
 
     credentials-file: /etc/cloudflared/creds/credentials.json
 
@@ -76,8 +76,8 @@ data:
     metrics: 0.0.0.0:2000
     no-autoupdate: true
     ingress:
-    - hostname: linkding.behrlevi.org
-      service: http://linkding:9090
+    - hostname: alagut.behrlevi.org # Needs to be the same as the DNS record
+      service: http://alagut:9090
 
     # This rule sends traffic to the built-in hello-world HTTP server. This can help debug connectivity
     # issues. If hello.example.com resolves and tunnel.example.com does not, then the problem is
