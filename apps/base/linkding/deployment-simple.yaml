@@ -20,9 +20,6 @@ spec:
       containers:
         - name: linkding
           image: sissbruecker/linkding:latest
-          command: ["/bin/sh", "-c"]
-          args: 
-            - linkding python manage.py createsuperuser --username=admin --email=admin@behrlevi.org
           env:
             # Linkding will create this user automatically on first boot
             - name: LD_SUPERUSER_NAME
