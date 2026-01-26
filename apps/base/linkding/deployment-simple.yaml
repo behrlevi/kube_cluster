@@ -23,6 +23,12 @@ spec:
           command: ["/bin/sh", "-c"]
           args: 
             - linkding python manage.py createsuperuser --username=admin --email=admin@behrlevi.org
+          env:
+            # Linkding will create this user automatically on first boot
+            - name: LD_SUPERUSER_NAME
+              value: "admin"
+            - name: LD_SUPERUSER_PASSWORD
+              value: "password"
           ports:
             - containerPort: 9090
           volumeMounts:
