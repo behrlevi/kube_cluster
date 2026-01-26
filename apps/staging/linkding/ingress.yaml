@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: linkding
 spec:
-  ingressClassName: traefik
+  ingressClassName: nginx
   rules:
     - host: linkding.behrlevi.org
       http:
