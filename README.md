@@ -48,34 +48,38 @@ graph LR
 
 The repository is structured in conformity with the [monorepo](https://fluxcd.io/flux/guides/repository-structure/) methodology.
 ```
-├── apps/                                 # Application manifestst
-│   ├── base/                             # Base Kustomize manifests
-│   └── staging/                          # Application-specific settings
+├── apps/                                             # Application manifestst
+│   ├── base/                                         # Base Kustomize manifests
+│   └── staging/                                      # Application-specific settings
 ├── clusters/                      
 │   └── staging/                
-│       └──  flux-system/                 # Flux system components
-            ├── gotk-components.yaml      # GitOps toolkit
-            ├── gotk-sync.yaml            # GitOps toolkit - kind: GitRepository & kind: Kustomization (the Kustomization file below)
-            └── kustomization.yaml        # The base template for Flux configured by default.
-|   ├── .sops.yaml                        # Contains the public key for encryption
-|   ├── apps.yaml                         # A Kustomization custom resource
-|   ├── infrastructure.yaml               # Sync definition for infrastructure
+│       └──  flux-system/                             # Flux system components
+            ├── gotk-components.yaml                  # GitOps toolkit
+            ├── gotk-sync.yaml                        # GitOps toolkit - kind: GitRepository & kind: Kustomization (the Kustomization file below)
+            └── kustomization.yaml                    # The base template for Flux configured by default.
+|   ├── .sops.yaml                                    # Contains the public key for encryption
+|   ├── apps.yaml                                     # A Kustomization custom resource
+|   ├── infrastructure.yaml                           # Sync definition for infrastructure
 │   └── monitoring.yaml            
-├── infrastructure/                       # Core system components
+├── infrastructure/                                   # Core system components
 │   └──  controllers/              
 │       └── monitoring/
 |           └── base
 |               └── renovate
 |           └── staging
 |               └── renovate
+|                   ├── configmap.yaml                # Credentials for the Renovate Bot
+|                   ├── cronjob.yaml                  # Defines a job wich runs at a given interval and checking for image updates
+|                   ├── namespace.yaml
+|                   └──renovate-cotainer-env.yaml
 ├── monitoring/
 |   └── confings/staging                  
 |       └── kube-prometheus-stack         
-|           └── grafana-tls-secret.yaml   # 
+|           └── grafana-tls-secret.yaml    
 |   ├── base
 |       ├── namespace.yaml
-|       ├── release.yaml                  # Defines the HELM release
-|       └── repository.yaml               # Defines the repository containing the Helm chart
+|       ├── release.yaml                              # Defines the HELM release
+|       └── repository.yaml                           # Defines the repository containing the Helm chart
 ```
 ## Secrets management with [SOPS](https://fluxcd.io/flux/guides/mozilla-sops/)
 
@@ -260,4 +264,24 @@ kubectl create secret generic linkding-container-env \
 
 sops --age=$AGE_PUBLIC \
 --encrypt --encrypted-regex '^(data|stringData)$' --in-place linkding-container-env-secret.yaml
+```
+
+## Automatic updates with Renovate bot
+
+[Renovate](https://github.com/renovatebot/renovate) is an automated dependecy update tool.
+The goal of it's usage in the current project is to have a system in place running 24/7 which periodically checks for new image versions
+and creates a GitHub pull request when an update is available. The user can decide to update the given image by approving the PR.
+
+Requirements:
+- a GitHub token with **repo** permission
+
+#### Create and encrypt a secret containing the GitHub token
+```
+kubectl create secret generic renovate-container-env \
+--from-literal=RENOVATE_TOKEN=<token> \
+--dry-run=client \
+-o yaml > renovate-container-env.yaml
+
+sops --age=$AGE_PUBLIC \
+--encrypt --encrypted-regex '^(data|stringData)$' --in-place renovate-container-env.yaml
 ```

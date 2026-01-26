@@ -5,5 +5,5 @@ metadata:
   namespace: renovate
 data:
   RENOVATE_AUTODISCOVER: "false"
-  RENOVATE_GIT_AUTHOR: "Renováló Robot <bot@renovateapp.com>"
+  RENOVATE_GIT_AUTHOR: "Foltozó Robot <renovate@behrlevi.org>"
   RENOVATE_PLATFORM: "github"
