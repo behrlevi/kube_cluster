@@ -6,6 +6,7 @@ This repository acts as the **Single Source of Truth** for my Kubernetes infrast
 
 The goal of this project is to demonstrate a production-ready approach to managing Kubernetes clusters using **Infrastructure as Code (IaC)**.
 
+The project is aligned with [The Twelve-Factor App](https://12factor.net/) methodology.
 ---
 
 ## Core Technology Stack
@@ -235,9 +236,10 @@ helm show values prometheus/community/kube-prometheus-stack | vim
 
 ## Deploying secrets with Flux
 
-To deploy secrets with Flux, the secrets need to be defined in YAML manifests
+To deploy secrets with Flux, the secrets need to be defined in YAML manifests.
+By storing credentials in secrets this way, we are satisfying the [third requirement](https://12factor.net/config) of The Twelve-Factor app methodology. 
 
-The following commands will create a manifest for the secret containing the Linkding Cloudflare tunnel credentials and encrypt it with the AGE key
+The following commands will create a manifest for the secret containing the Linkding Cloudflare tunnel credentials and encrypt it with the AGE key:
 ```
 kubectl create secret generic tunnel-credentials \
 --from-file=credentials.json=<tunnel-IDa>.json --dry-run=client -o yaml > cloudflare-secret.yaml
