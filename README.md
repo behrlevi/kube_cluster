@@ -80,6 +80,7 @@ The repository is structured in conformity with the [monorepo](https://fluxcd.io
 |       ├── namespace.yaml
 |       ├── release.yaml                              # Defines the HELM release
 |       └── repository.yaml                           # Defines the repository containing the Helm chart
+├──renovate.json                                      # Matches all the YAML files in the repository. 
 ```
 ## Secrets management with [SOPS](https://fluxcd.io/flux/guides/mozilla-sops/)
 
@@ -285,3 +286,5 @@ kubectl create secret generic renovate-container-env \
 sops --age=$AGE_PUBLIC \
 --encrypt --encrypted-regex '^(data|stringData)$' --in-place renovate-container-env.yaml
 ```
+#### Manifest files
+The YAML files are placed in the infrastructure/controllers/base/renovate directory.

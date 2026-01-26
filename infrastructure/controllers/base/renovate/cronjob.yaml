@@ -5,7 +5,7 @@ metadata:
   namespace: renovate
 spec:
   schedule: "@hourly"
-  concurrencyPolicy: Forbid # Waits for the next update window in case of others jobs are currently running.
+  concurrencyPolicy: Forbid # Waits for the next update window in case other jobs are currently running.
   jobTemplate:
     spec:
       template:
