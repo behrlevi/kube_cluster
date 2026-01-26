@@ -273,6 +273,9 @@ sops --age=$AGE_PUBLIC \
 The goal of it's usage in the current project is to have a system in place running 24/7 which periodically checks for new image versions
 and creates a GitHub pull request when an update is available. The user can decide to update the given image by approving the PR.
 
+Flux also has a [solution](https://fluxcd.io/flux/components/image/imageupdateautomations/) for automatic image updates. For this project Renovate was choose because it creates PRs with the changelog, whereas
+Flux auto image updater works in the background without human-in-the-loop by default.
+
 Requirements:
 - a GitHub token with **repo** permission
 
