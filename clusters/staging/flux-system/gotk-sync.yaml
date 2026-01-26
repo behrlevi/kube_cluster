@@ -21,7 +21,7 @@ metadata:
 spec:
   interval: 10m0s
   path: ./clusters/staging
-  prune: true
+  prune: true # When manifests are uncommented in the Kustomizations files, Flux will delete the resourcres from Kubernetes
   sourceRef:
     kind: GitRepository
     name: flux-system

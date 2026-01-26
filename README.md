@@ -48,7 +48,7 @@ graph LR
 The repository is structured in conformity with the [monorepo](https://fluxcd.io/flux/guides/repository-structure/) methodology.
 ```
 ├── apps/                                 # Application manifestst
-│   ├── base/                             # Base Kustomize manifests (DRY principle)
+│   ├── base/                             # Base Kustomize manifests
 │   └── staging/                          # Application-specific settings
 ├── clusters/                      
 │   └── staging/                
@@ -181,7 +181,7 @@ kubectl create secret generic tunnel-credentials \
 --from-file=credentials.json=<ID>.json --namespace=<app_namespace>
 ```
 
-#### Create a CNAME DNS rekord
+#### Create a CNAME DNS record
 ```
 <tunnel_ID>.cfargotunnel.com
 ```
@@ -231,4 +231,31 @@ helm install [RELEASE_NAME] oci://ghcr.io/prometheus-community/charts/kube-prome
 The values section defines the Helm values, which can be printed with the command:
 ```
 helm show values prometheus/community/kube-prometheus-stack | vim
+```
+
+## Deploying secrets with Flux
+
+To deploy secrets with Flux, the secrets need to be defined in YAML manifests
+
+The following commands will create a manifest for the secret containing the Linkding Cloudflare tunnel credentials and encrypt it with the AGE key
+```
+kubectl create secret generic tunnel-credentials \
+--from-file=credentials.json=<tunnel-IDa>.json --dry-run=client -o yaml > cloudflare-secret.yaml
+
+sops --age=$AGE_PUBLIC \
+--encrypt --encrypted-regex '^(data|stringData)$' --in-place cloudflare-secret.yaml
+```
+
+We can also encrypt the environment variables into a secret.
+These command create and encrypt the superuser credentials used for Linkding, which doesn't included a built-in user by default.
+
+```
+kubectl create secret generic linkding-container-env \
+--from-literal=LD_SUPERUSER_NAME=admin \
+--from-literal=LD_SUPERUSER_PASSWORD=password \
+--dry-run=client \
+-o yaml > linkding-container-env-secret.yaml
+
+sops --age=$AGE_PUBLIC \
+--encrypt --encrypted-regex '^(data|stringData)$' --in-place linkding-container-env-secret.yaml
 ```

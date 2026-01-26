@@ -28,8 +28,8 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
           envFrom:
-#            - configMapRef:
-#                name: linkding-configmap
+#           - configMapRef:
+#               name: linkding-configmap
             - secretRef:
                 name: linkding-container-env
       volumes:
