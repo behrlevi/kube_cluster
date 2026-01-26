@@ -4,25 +4,25 @@ metadata:
   name: kube-prometheus-stack
   namespace: monitoring
 spec:
-  interval: 30m
+  interval: 30m # defines the Flux reconciliation interval
   chart:
     spec:
       chart: kube-prometheus-stack
       version: "66.2.2"
 
-      # version: "58.x"
+      # version: "58.x" # Can be used to only pin the minor version.
 
       sourceRef:
         kind: HelmRepository
         name: kube-prometheus-stack
         namespace: monitoring
-      interval: 12h
+      interval: 12h # efines the Helm chart fetching interval
   install:
-    crds: Create
+    crds: Create # Instructs Flux to install new charts, but not to update existing one.
   upgrade:
-    crds: CreateReplace
+    crds: CreateReplace # Instructs Flux to replace existing charts when updating.
   driftDetection:
-    mode: enabled
+    mode: enabled # Flux always take the chart as the single source of truth. It will revert local changes.
     ignore:
       # Ignore "validated" annotation which is not inserted during install
       - paths: ["/metadata/annotations/prometheus-operator-validated"]

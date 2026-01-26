@@ -47,26 +47,34 @@ graph LR
 
 The repository is structured in conformity with the [monorepo](https://fluxcd.io/flux/guides/repository-structure/) methodology.
 ```
-├── apps/                               # Application manifestst
-│   ├── base/                           # Base Kustomize manifests (DRY principle)
-│   └── staging/                        # Application-specific settings
+├── apps/                                 # Application manifestst
+│   ├── base/                             # Base Kustomize manifests (DRY principle)
+│   └── staging/                          # Application-specific settings
 ├── clusters/                      
 │   └── staging/                
-│       └──  flux-system/               # Flux system components
-            ├── gotk-components.yaml    # GitOps toolkit
-            ├── gotk-sync.yaml          # GitOps toolkit - kind: GitRepository & kind: Kustomization (the Kustomization file below)
-            └── kustomization.yaml      # The base template for Flux configured by default.
-|   ├── .sops.yaml                      # Contains the public key for encryption
-|   ├── apps.yaml                       # A Kustomization custom resource
-|   ├── infrastructure.yaml             # Sync definition for infrastructure
+│       └──  flux-system/                 # Flux system components
+            ├── gotk-components.yaml      # GitOps toolkit
+            ├── gotk-sync.yaml            # GitOps toolkit - kind: GitRepository & kind: Kustomization (the Kustomization file below)
+            └── kustomization.yaml        # The base template for Flux configured by default.
+|   ├── .sops.yaml                        # Contains the public key for encryption
+|   ├── apps.yaml                         # A Kustomization custom resource
+|   ├── infrastructure.yaml               # Sync definition for infrastructure
 │   └── monitoring.yaml            
-├── infrastructure/                     # Core system components
+├── infrastructure/                       # Core system components
 │   └──  controllers/              
 │       └── monitoring/
 |           └── base
 |               └── renovate
 |           └── staging
 |               └── renovate
+├── monitoring/
+|   └── confings/staging                  
+|       └── kube-prometheus-stack         
+|           └── grafana-tls-secret.yaml   # 
+|   ├── base
+|       ├── namespace.yaml
+|       ├── release.yaml                  # Defines the HELM release
+|       └── repository.yaml               # Defines the repository containing the Helm chart
 ```
 ## Secrets management with [SOPS](https://fluxcd.io/flux/guides/mozilla-sops/)
 
@@ -204,3 +212,23 @@ The logic in the file is as follows:
   - the name of tunnel which has to indentical with the name given in the 'cloudflared tunnel create' command
   - defines the path of the credentials file which was mounted by the 'creds' volume mount and stems from the secret
   - the Ingress hostname and the DNS name of the service to which the tunnel should be bound to
+
+## Installing the Kube-Prometheus-Stack
+
+#### Install Helm cli
+```
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
+```
+
+The manifests are located in the **monitoring** folder.
+
+#### release.yaml
+Installs the Helm chart.
+The analogous command would be:
+```
+helm install [RELEASE_NAME] oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
+```
+The values section defines the Helm values, which can be printed with the command:
+```
+helm show values prometheus/community/kube-prometheus-stack | vim
+```
