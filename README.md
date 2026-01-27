@@ -28,21 +28,15 @@ This project leverages the following technologies to ensure scalability, securit
 
 ## Architecture & Workflow
 
-Changes to the infrastructure are automatically reconciled by Flux every 10 minutes (configured in clusters/staging/flux-system/gotk-sync.yaml) by synchronizing with the Git repository.
+Changes to the infrastructure are automatically reconciled by Flux every 10 minutes (configured in clusters/staging/flux-system/gotk-sync.yaml) by synchronising with the Git repository.
 
 ```mermaid
 graph LR
-    A[User / CI] -- Commits Code --> B(Git Repository);
-    B -- Webhook Trigger --> C{Flux Controller};
-    C -- Reconciles State --> D[Kubernetes Cluster];
-    
-    subgraph Cluster
-    D -- Deploys --> E[Apps];
-    D -- Configures --> F[Network Policies];
-    end
-    
-    G[Renovate Bot] -- Auto-Updates Dependencies --> B;
-    H[Prometheus] -- Scrapes Metrics --> D;
+    A[User] -- Commit --> B(GitHub Repository);
+    D[Flux Controller] -- Reconciliation --> C(Cluster Resources);
+    B -- Read Manifests --> D;
+    B -- Check Image version --> G[Renovate Bot] ;
+    G[Renovate Bot] -- Creates Patch PR --> B;
 ```
 ## Repository Structure
 
