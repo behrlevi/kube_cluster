@@ -28,7 +28,7 @@ This project leverages the following technologies to ensure scalability, securit
 
 ## Architecture & Workflow
 
-Changes to the infrastructure are performed via Pull Requests. Once merged, Flux automatically synchronises the cluster state with the Git repository.
+Changes to the infrastructure are automatically reconciled by Flux every 10 minutes (configured in clusters/staging/flux-system/gotk-sync.yaml) by synchronizing with the Git repository.
 
 ```mermaid
 graph LR
